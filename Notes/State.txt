@@ -1,0 +1,8 @@
+State
+
+State is a built-in React object that is used to contain data or information about the component.
+
+An initial value can be set to a state of a component
+
+useState object always returns an array of exactly two elements, 0th is the value itself (a state variable) and 1st is a function to update the state variable.
+

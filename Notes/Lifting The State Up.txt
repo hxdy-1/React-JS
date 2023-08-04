@@ -1,0 +1,5 @@
+Lifting The State Up
+
+Sending data state data from child to parent is called lifting the state up basically.
+
+We can achieve this by passing a function with certain parameters as a prop to the child component. Then, in the child component, the data that needs to be sent to the parent should be passed as an argument to the function via the prop. This way, it can be accessed in the parent component.

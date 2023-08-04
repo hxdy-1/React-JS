@@ -1,0 +1,13 @@
+Props
+
+Props stands for Properties
+
+Props are JSX attributes that are used to pass data from parent component to child component.
+
+Props can only have a single value that can be passed.
+
+To access the data parent passed via props in child we must acces it by the prop name set in the parent component.
+
+Parent: data={someData}
+
+Child: props.data
