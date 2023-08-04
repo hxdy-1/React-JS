@@ -11,9 +11,7 @@ const AddUser = (props) => {
 
     const submissionHandler = (e) => {
         e.preventDefault();
-        console.log("submitted");
-
-        // if (inputUserName.trim().length === 0 || inputAge.trim().length === 0) {
+        // console.log("submitted");
         if (inputUserName.trim().length === 0 && inputAge.trim().length === 0) {
             setError({
                 title: "Invalid input",
@@ -30,7 +28,7 @@ const AddUser = (props) => {
             return;
         }
 
-        console.log(inputUserName, inputAge);
+        // console.log(inputUserName, inputAge);
         props.onAdd(inputUserName, inputAge);
 
         setInputUserName("");
