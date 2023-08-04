@@ -31,7 +31,7 @@ const ExpenseForm = (props) => {
         setEnteredAmount("");
         setEnteredDate("");
 
-        console.log("form is submitted");
+        // console.log("form is submitted");
     };
 
     return (
