@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Card from "./UI/Card";
-import AddUser from "./Components/addUser";
-import UsersList from "./Components/usersList";
+import AddUser from "./Components/AddUser";
+import UsersList from "./Components/UsersList";
 
 function App() {
     const [usersList, setUsersList] = useState([]);
@@ -16,10 +15,10 @@ function App() {
     };
 
     return (
-        <div>
+        <>
             <AddUser onAdd={addUserHandler} />
             {usersList.length > 0 && <UsersList users={usersList} />}
-        </div>
+        </>
     );
 }
 
