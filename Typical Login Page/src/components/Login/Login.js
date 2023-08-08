@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../auth-context";
+import Input from "../UI/Input/Input";
 
 const emailReducer = (state, action) => {
     if (action.type === "USER_INPUT_EMAIL") {
@@ -24,12 +26,14 @@ const passwordReducer = (state, action) => {
     return { value: "", isValid: false };
 };
 
-const Login = (props) => {
+const Login = () => {
     // const [enteredEmail, setEnteredEmail] = useState("");
     // const [emailIsValid, setEmailIsValid] = useState();
     // const [enteredPassword, setEnteredPassword] = useState("");
     // const [passwordIsValid, setPasswordIsValid] = useState();
     const [formIsValid, setFormIsValid] = useState(false);
+
+    const authCtx = useContext(AuthContext);
 
     useEffect(() => {
         console.log("EFFECT RUNNING");
@@ -49,9 +53,6 @@ const Login = (props) => {
         isValid: null,
     });
 
-    // const { isValid: emailValidator } = emailState;
-    // const { isValid: passwordValidator } = passwordState;
-
     useEffect(() => {
         const identifier = setTimeout(() => {
             console.log("Checking form validity!");
@@ -66,7 +67,6 @@ const Login = (props) => {
 
     // EMAIL CHANGE AND VALIDATIONS:
     const emailChangeHandler = (event) => {
-        // setEnteredEmail(event.target.value);
         emailDispatchFn({ type: "USER_INPUT_EMAIL", val: event.target.value });
 
         // setFormIsValid(emailState.value.includes("@") && passwordState.isValid);
@@ -79,7 +79,6 @@ const Login = (props) => {
 
     // PASSWORD CHANGE AND VALIDATIONS:
     const passwordChangeHandler = (event) => {
-        // setEnteredPassword(event.target.value);
         passwordDispatchFn({
             type: "USER_INPUT_PASS",
             val: event.target.value,
@@ -97,40 +96,30 @@ const Login = (props) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        props.onLogin(emailState.value, passwordState.value);
+        authCtx.onLogin(emailState.value, passwordState.value);
     };
 
     return (
         <Card className={classes.login}>
             <form onSubmit={submitHandler}>
-                <div
-                    className={`${classes.control} ${
-                        emailState.isValid === false ? classes.invalid : ""
-                    }`}
-                >
-                    <label htmlFor="email">E-Mail</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={emailState.value}
-                        onChange={emailChangeHandler}
-                        onBlur={validateEmailHandler}
-                    />
-                </div>
-                <div
-                    className={`${classes.control} ${
-                        passwordState.isValid === false ? classes.invalid : ""
-                    }`}
-                >
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={passwordState.value}
-                        onChange={passwordChangeHandler}
-                        onBlur={validatePasswordHandler}
-                    />
-                </div>
+                <Input
+                    isValid={emailState.isValid}
+                    label="E-mail"
+                    id="email"
+                    type="email"
+                    value={emailState.value}
+                    onChange={emailChangeHandler}
+                    onBlur={validateEmailHandler}
+                />
+                <Input
+                    isValid={passwordState.isValid}
+                    label="Password"
+                    id="password"
+                    type="password"
+                    value={passwordState.value}
+                    onChange={passwordChangeHandler}
+                    onBlur={validatePasswordHandler}
+                />
                 <div className={classes.actions}>
                     <Button
                         type="submit"
