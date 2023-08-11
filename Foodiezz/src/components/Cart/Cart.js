@@ -1,5 +1,6 @@
 import Card from "../UI/Card";
 import styles from "./Cart.module.css";
+import Modal from "../UI/Modal";
 
 const Cart = (props) => {
     const cartItems = (
@@ -12,17 +13,22 @@ const Cart = (props) => {
         </ul>
     );
     return (
-        <Card>
+        <Modal onClose={props.onHideCart}>
             {cartItems}
             <div className={styles.total}>
                 <span>Total</span>
                 <span>34.87</span>
             </div>
             <div className={styles.actions}>
-                <button className={styles["button--alt"]}>Cancel</button>
+                <button
+                    className={styles["button--alt"]}
+                    onClick={props.onHideCart}
+                >
+                    Cancel
+                </button>
                 <button className={styles.button}>Order</button>
             </div>
-        </Card>
+        </Modal>
     );
 };
 
