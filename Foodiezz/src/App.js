@@ -8,18 +8,18 @@ function App() {
     const [isCartVisible, setISCartVisible] = useState(false);
 
     const showCartHandler = (e) => {
-        console.log("cart opened");
+        // console.log("cart opened");
         setISCartVisible(true);
     };
 
-    const hideCartHanndler = (e) => {
+    const hideCartHandler = (e) => {
         setISCartVisible(false);
-        console.log("cart closed");
+        // console.log("cart closed");
     };
 
     return (
         <CartProvider>
-            {isCartVisible && <Cart onHideCart={hideCartHanndler} />}
+            {isCartVisible && <Cart onHideCart={hideCartHandler} />}
             <Header onShowCart={showCartHandler} />
             <main>
                 <Meals />
