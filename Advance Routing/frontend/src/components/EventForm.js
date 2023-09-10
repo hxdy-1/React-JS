@@ -1,21 +1,40 @@
-import { useNavigate, Form, useNavigation } from "react-router-dom";
+import {
+	useNavigate,
+	Form,
+	useNavigation,
+	useActionData,
+	json,
+	redirect,
+} from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
 function EventForm({ method, event }) {
 	const navigate = useNavigate();
 	const navigation = useNavigation();
+	const data = useActionData();
 
 	const isSubmitting = navigation.state === "submitting";
+
+	// console.log(data);
 
 	function cancelHandler() {
 		navigate("..");
 	}
 
 	return (
-		<Form method="post" className={classes.form}>
+		<Form method={method} className={classes.form}>
+			{/* {data && data.errors && (
+				<ul>
+					{Object.values(data.errors).map((err) => (
+						<li key={err}>{err}</li>
+					))}
+				</ul>
+			)} */}
+			{/* {console.log(data)} */}
 			<p>
 				<label htmlFor="title">Title</label>
+				{data && data.errors && <li>{data.errors.title}</li>}
 				<input
 					id="title"
 					type="text"
@@ -26,6 +45,7 @@ function EventForm({ method, event }) {
 			</p>
 			<p>
 				<label htmlFor="image">Image</label>
+				{data && data.errors && <li>{data.errors.image}</li>}
 				<input
 					id="image"
 					type="url"
@@ -36,6 +56,7 @@ function EventForm({ method, event }) {
 			</p>
 			<p>
 				<label htmlFor="date">Date</label>
+				{data && data.errors && <li>{data.errors.date}</li>}
 				<input
 					id="date"
 					type="date"
@@ -46,6 +67,7 @@ function EventForm({ method, event }) {
 			</p>
 			<p>
 				<label htmlFor="description">Description</label>
+				{data && data.errors && <li>{data.errors.description}</li>}
 				<textarea
 					id="description"
 					name="description"
@@ -71,3 +93,38 @@ function EventForm({ method, event }) {
 }
 
 export default EventForm;
+
+export const action = async ({ request, params }) => {
+	const data = await request.formData();
+
+	const eventDataObj = {
+		title: data.get("title"),
+		image: data.get("image"),
+		date: data.get("date"),
+		description: data.get("description"),
+	};
+
+	let url = "http://localhost:8080/events";
+
+	if (request.method === "PATCH") {
+		url = "http://localhost:8080/events/" + params.eventId;
+	}
+
+	const response = await fetch(url, {
+		method: request.method,
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(eventDataObj),
+	});
+
+	if (response.status === 422) {
+		return response;
+	}
+
+	if (!response.ok) {
+		throw json({ message: "Couldn't save the event :(" }, { status: 500 });
+	}
+
+	return redirect("/events");
+};

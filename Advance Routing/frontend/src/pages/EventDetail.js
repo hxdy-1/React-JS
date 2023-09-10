@@ -1,4 +1,4 @@
-import { json, useRouteLoaderData } from "react-router-dom";
+import { json, redirect, useRouteLoaderData } from "react-router-dom";
 import EventItem from "../components/EventItem";
 
 const EventDetailPage = () => {
@@ -37,4 +37,6 @@ export const action = async ({ params, request }) => {
 			{ status: 500 }
 		);
 	}
+
+	return redirect("/events");
 };
