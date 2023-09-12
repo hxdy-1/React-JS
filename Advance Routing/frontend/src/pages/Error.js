@@ -4,7 +4,7 @@ import MainNavigation from "../components/MainNavigation";
 
 const ErrorPage = () => {
 	const error = useRouteError();
-	// console.log(error);
+	// console.error(error);
 
 	let title = "An error occurred ";
 	let message = "something went wrong :(";

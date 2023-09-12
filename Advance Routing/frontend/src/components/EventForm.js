@@ -15,7 +15,6 @@ function EventForm({ method, event }) {
 	const data = useActionData();
 
 	const isSubmitting = navigation.state === "submitting";
-
 	// console.log(data);
 
 	function cancelHandler() {
