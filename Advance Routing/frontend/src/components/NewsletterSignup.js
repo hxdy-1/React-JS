@@ -1,15 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useFetcher } from "react-router-dom";
 
 import classes from "./NewsletterSignup.module.css";
 
 const NewsletterSignup = () => {
+	const ref = useRef();
 	const fetcher = useFetcher();
 	const { data, state } = fetcher;
+	// console.log(ref.current.value);
 
 	useEffect(() => {
 		if (state === "idle" && data && data.message) {
 			window.alert(data.message);
+			ref.current.value = "";
 		}
 	}, [data, state]);
 
@@ -20,9 +23,11 @@ const NewsletterSignup = () => {
 			className={classes.newsletter}
 		>
 			<input
+				name="email"
 				type="email"
 				placeholder="Sign up for newsletter..."
 				aria-label="Sign up for newsletter"
+				ref={ref}
 			/>
 			<button>Sign up</button>
 		</fetcher.Form>
