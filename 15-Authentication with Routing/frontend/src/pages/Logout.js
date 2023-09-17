@@ -1,11 +1,7 @@
 import { redirect } from "react-router-dom";
-import { getAuthToken } from "../utils/auth";
 
-export const action = () => {
+export function action() {
 	localStorage.removeItem("token");
+	localStorage.removeItem("expiration");
 	return redirect("/");
-};
-
-export const loader = () => {
-	return getAuthToken();
-};
+}
