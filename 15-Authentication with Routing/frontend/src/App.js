@@ -17,12 +17,15 @@ import AuthenticationPage, {
 	action as authAction,
 } from "./pages/Authentication";
 import { action as logoutAction } from "./pages/Logout";
+import { loader as tokenLoader } from "./pages/Logout";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <RootLayout />,
 		errorElement: <ErrorPage />,
+		id: "root",
+		loader: tokenLoader,
 		children: [
 			{ index: true, element: <HomePage /> },
 			{
