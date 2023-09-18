@@ -3,6 +3,9 @@ import { Form, NavLink, useRouteLoaderData } from "react-router-dom";
 import classes from "./MainNavigation.module.css";
 import NewsletterSignup from "./NewsletterSignup";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+
 function MainNavigation() {
 	const token = useRouteLoaderData("root");
 	// console.log(token);
@@ -50,14 +53,17 @@ function MainNavigation() {
 									isActive ? classes.active : undefined
 								}
 							>
-								Authentication
+								Login
 							</NavLink>
 						</li>
 					)}
 					{token && (
 						<li>
 							<Form method="POST" action="/logout">
-								<button>Logout</button>
+								<button>
+									Logout{" "}
+									<FontAwesomeIcon icon={faSignOutAlt} />
+								</button>
 							</Form>
 						</li>
 					)}

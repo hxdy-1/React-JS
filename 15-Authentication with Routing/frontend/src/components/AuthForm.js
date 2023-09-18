@@ -43,7 +43,9 @@ function AuthForm() {
 				</p>
 				<div className={classes.actions}>
 					<Link to={`?mode=${isLogin ? "signup" : "login"}`}>
-						{isLogin ? "Create new user" : "Login"}
+						{isLogin
+							? "Wanna post? Sign up!"
+							: "Already a user? Login!"}
 					</Link>
 					<button disabled={isSubmitting}>
 						{isSubmitting
