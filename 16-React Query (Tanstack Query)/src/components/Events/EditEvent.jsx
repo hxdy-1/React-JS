@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchEvent, updateEvent } from "../../util/http.js";
+import { fetchEvent, updateEvent, queryClient } from "../../util/http.js";
 import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
@@ -16,13 +16,23 @@ export default function EditEvent() {
 		queryFn: ({ signal }) => fetchEvent({ id, signal }),
 	});
 
-	const { mutate } = useMutation({
+	const {
+		mutate,
+		isPending: isUpdatingPending,
+		isError: isUpdatingGotError,
+		error: updatingError,
+	} = useMutation({
 		mutationFn: updateEvent,
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["events"],
+			});
+			navigate("../");
+		},
 	});
 
 	function handleSubmit(formData) {
 		mutate({ id, event: formData });
-		navigate("../");
 	}
 
 	function handleClose() {
@@ -58,12 +68,23 @@ export default function EditEvent() {
 	if (data) {
 		content = (
 			<EventForm inputData={data} onSubmit={handleSubmit}>
-				<Link to="../" className="button-text">
-					Cancel
-				</Link>
-				<button type="submit" className="button">
-					Update
-				</button>
+				{isUpdatingPending && "Updating..."}
+				{isUpdatingGotError && (
+					<ErrorBlock
+						title="Failed to update the event"
+						message="Please check your inputs"
+					/>
+				)}
+				{!isUpdatingPending && !isUpdatingGotError && (
+					<>
+						<Link to="../" className="button-text">
+							Cancel
+						</Link>
+						<button type="submit" className="button">
+							Update
+						</button>
+					</>
+				)}
 			</EventForm>
 		);
 	}
